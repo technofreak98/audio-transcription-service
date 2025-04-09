@@ -23,7 +23,7 @@ A scalable, cloud-native architecture that transcribes audio into structured per
 
 ## 📦 System Architecture
 
-![Mentalyc Architecture](Mentalyc.drawio.png)
+![Mentalyc Architecture](Audio Transcription.svg)
 
 ---
 
@@ -35,9 +35,11 @@ infra/
 ├── eks/                     # EKS cluster, Karpenter, KEDA setup
 ├── network/                 # VPC & subnets
 ├── services/                # S3, SQS, RDS, Transcribe resources
-└── apps/
+k8-configs/
+└── deployments/
     ├── fastapi-deployment.yaml
     ├── worker-deployment.yaml
+└── services/
     └── ingress.yaml
 .github/
 └── workflows/
@@ -50,63 +52,6 @@ app/
     ├── worker.py
     └── Dockerfile
 ```
-
-Here's a **complete `README.md`** for your GitHub repo, integrating **AWS EKS architecture**, **FastAPI & Worker apps**, **Terraform infrastructure**, and **GitHub Actions CI/CD** setup.
-
----
-
-```markdown
-# 🧠 Mentalyc Audio Diary Transcription System
-
-A scalable, cloud-native architecture that transcribes audio into structured personal diary entries using **AWS Transcribe**, **OpenAI GPT**, and **FastAPI**, deployed on **EKS with Karpenter + KEDA** and managed through **Terraform IaC + GitHub Actions CI/CD**.
-
----
-
-## 🔧 Tech Stack
-
-- **FastAPI** – REST API for audio upload/authentication
-- **AWS Transcribe** – For audio-to-text transcription
-- **OpenAI GPT-3.5** – Converts transcription into diary format
-- **Amazon S3** – For storing audio files
-- **Amazon SQS** – Event queue for async processing
-- **Amazon RDS** – Optional storage for diary entries
-- **KEDA** – Autoscale worker pods from SQS queue
-- **Karpenter** – Autoscale EKS nodes
-- **Terraform** – Infrastructure as Code
-- **GitHub Actions** – CI/CD pipeline for deployment
-
----
-
-## 📦 System Architecture
-
-![Mentalyc Architecture](Mentalyc.drawio.png)
-
----
-
-## 📁 Directory Structure
-
-```bash
-infra/
-├── main.tf                  # Root Terraform entry point
-├── eks/                     # EKS cluster, Karpenter, KEDA setup
-├── network/                 # VPC & subnets
-├── services/                # S3, SQS, RDS, Transcribe resources
-└── apps/
-    ├── fastapi-deployment.yaml
-    ├── worker-deployment.yaml
-    └── ingress.yaml
-.github/
-└── workflows/
-    └── deploy.yml           # CI/CD GitHub Action
-app/
-├── api/                     # FastAPI upload endpoint
-│   ├── main.py
-│   └── Dockerfile
-└── worker/                  # EKS Worker app
-    ├── worker.py
-    └── Dockerfile
-```
-
 ---
 
 ## 🚀 Deploy Instructions
@@ -212,30 +157,3 @@ The worker running in EKS:
 - **CloudWatch** – Logs and metrics integrated via EKS
 
 ---
-
-## 📜 License
-
-MIT © [Your Name]
-
----
-
-## ❤️ Contributions
-
-PRs welcome! For major changes, open an issue to discuss what you'd like to change.
-
----
-
-## 📞 Support
-
-Open an issue or ping [@yourhandle](https://github.com/yourhandle) on GitHub.
-```
-
----
-
-### Want Me to:
-
-- Push this `README.md` to your repo?
-- Add GitHub badges (build status, license, Docker pulls)?
-- Auto-deploy docs to GitHub Pages?
-
-Just say the word!
