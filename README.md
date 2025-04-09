@@ -1,6 +1,6 @@
 # audio-transcription-service
 
-# 🧠 Mentalyc Audio Diary Transcription System
+# 🧠 Audio Diary Transcription System
 
 A scalable, cloud-native architecture that transcribes audio into structured personal diary entries using **AWS Transcribe**, **OpenAI GPT**, and **FastAPI**, deployed on **EKS with Karpenter + KEDA** and managed through **Terraform IaC + GitHub Actions CI/CD**.
 
