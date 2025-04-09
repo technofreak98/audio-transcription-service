@@ -1,0 +1,54 @@
+name: CI/CD for FastAPI + Worker on EKS
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  AWS_REGION: ${{ secrets.AWS_REGION }}
+  EKS_CLUSTER_NAME: ${{ secrets.EKS_CLUSTER_NAME }}
+
+jobs:
+  deploy:
+    name: Build and Deploy
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v3
+
+    - name: Set up Docker
+      run: |
+        echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+
+    - name: Build & Push FastAPI Image
+      run: |
+        docker build -t ${{ secrets.DOCKER_REPO }}-api:latest ./app/api
+        docker push ${{ secrets.DOCKER_REPO }}-api:latest
+
+    - name: Build & Push Worker Image
+      run: |
+        docker build -t ${{ secrets.DOCKER_REPO }}-worker:latest ./app/worker
+        docker push ${{ secrets.DOCKER_REPO }}-worker:latest
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v2
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ secrets.AWS_REGION }}
+
+    - name: Update kubeconfig
+      run: |
+        aws eks update-kubeconfig --name $EKS_CLUSTER_NAME --region $AWS_REGION
+
+    - name: Deploy FastAPI
+      run: |
+        kubectl set image deployment/fastapi-api api=${{ secrets.DOCKER_REPO }}-api:latest
+        kubectl rollout status deployment/fastapi-api
+
+    - name: Deploy Worker
+      run: |
+        kubectl set image deployment/worker worker=${{ secrets.DOCKER_REPO }}-worker:latest
+        kubectl rollout status deployment/worker
