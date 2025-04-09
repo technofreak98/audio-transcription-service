@@ -23,7 +23,7 @@ A scalable, cloud-native architecture that transcribes audio into structured per
 
 ## 📦 System Architecture
 
-![Mentalyc Architecture](Audio Transcription.svg)
+![Architecture]("Audio Transcription.svg")
 
 ---
 
